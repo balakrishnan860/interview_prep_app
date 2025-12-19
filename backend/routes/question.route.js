@@ -4,7 +4,7 @@ import protectRoute from "../middlewares/protectRoute.js"
 const router = express.Router()
 
 router.post("/add",protectRoute,addQuestion)
-router.get("/get",protectRoute,getQuestions)
+router.get("/get",getQuestions)
 router.get("/:id",protectRoute, getQuestionById);
 router.put("/update/:id", protectRoute, updateQuestion);
 router.delete("/delete/:id", protectRoute, deleteQuestion);
