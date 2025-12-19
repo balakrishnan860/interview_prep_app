@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post("/add",protectRoute,addQuestion)
 router.get("/get",getQuestions)
-router.get("/:id",protectRoute, getQuestionById);
+router.get("/:id", getQuestionById);
 router.put("/update/:id", protectRoute, updateQuestion);
 router.delete("/delete/:id", protectRoute, deleteQuestion);
 router.get("/search/filters", searchQuestions)
