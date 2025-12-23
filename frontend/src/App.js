@@ -1,4 +1,4 @@
-import {BrowserRouter,Route,Routes,Navigate} from "react-router-dom"
+import {BrowserRouter,Route,Routes} from "react-router-dom"
 import {useContext} from "react"
 import { AuthContext } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
@@ -8,6 +8,10 @@ import Navbar from "./components/Navbar";
 import QuestionsPage from "./pages/QuestionsPage"
 import QuestionDetailsPage from "./pages/QuestionDetailsPage";
 import ProtectedRoute from "./ProtectedRoute";
+import UpdateQuestion from "./pages/UpdateQuestion";
+import AddQuestion from "./pages/AddQuestion";
+import MockInterview from "./pages/MockInterview";
+import MockInterviewSetup from "./pages/MockInterviewSetup";
 
 function App() {
  
@@ -29,6 +33,9 @@ function App() {
       </ProtectedRoute>
     }
   />
+  <Route path="/mock-setup" element={<MockInterviewSetup />} />
+  <Route path="/mock-interview" element={<MockInterview />} />
+ <Route path="/add-question" element={<AddQuestion/>}/>
 
   <Route
     path="/questions"
@@ -40,13 +47,14 @@ function App() {
   />
 
   <Route
-    path="/question/:id"
+    path="/questions/:id"
     element={
       <ProtectedRoute>
         <QuestionDetailsPage />
       </ProtectedRoute>
     }
   />
+<Route path="/update-question/:id" element={<UpdateQuestion />} />
 
 </Routes>
 

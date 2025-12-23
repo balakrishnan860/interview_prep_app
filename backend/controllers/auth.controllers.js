@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken"
 import User from "../models/user.model.js"
 import bcrypt from 'bcryptjs'
 import generateToken from "../utils/generateToken.js"
@@ -39,7 +40,7 @@ if(existingUsername){
         })
 
         if (newUser){
-            generateToken(newUser._id,res)
+            // generateToken(newUser._id,res)
             await newUser.save()
             res.status(200).json({
               _id: newUser._id,
@@ -59,35 +60,43 @@ if(existingUsername){
     }
 }
 
-export const login = async(req,res)=>{
-    try {
-        const {email,password} = req.body
-        console.log("BODY =>",req.body)
-        const user = await User.findOne({email})
-        const ispasswordCorrect = await bcrypt.compare(password,user?.password || "")
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-        if(!user || !ispasswordCorrect){
-            return res.status(400).json({error:"Invalid username or password"})
-        }
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(400).json({ error: "Invalid email or password" });
 
-        generateToken(user._id,res)
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect)
+      return res.status(400).json({ error: "Invalid email or password" });
 
-        res.status(200).json({
-            user:{
-             _id: user._id,
-              username:user.username,
-              fullname:user.fullname,
-              email:user.email,
-              profileImg:user.profileImg,
-              role:user.role,
-              createdAt:user.createdAt
-            }
-        })
-    } catch (error) {
-        console.log(`error in login controller ${error}`)
-        res.status(500).json({error:"Internal server error"})
-    }
-}
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "15d" }
+    );
+
+    return res.status(200).json({
+      token, // 🔥 THIS is what frontend needs
+      user: {
+        _id: user._id,
+        username: user.username,
+        fullname: user.fullname,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt
+      }
+    });
+
+  } catch (err) {
+    console.log("Login error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 export const logout = async(req,res)=>{
    try {
@@ -113,3 +122,28 @@ export const getMe = async(req,res)=>{
         res.status(500).json({error:"Internal server error"})
     }
 }
+
+
+export const toggleBookmark = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { questionId } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const index = user.bookmarks.indexOf(questionId);
+
+    if (index === -1) {
+      user.bookmarks.push(questionId);
+    } else {
+      user.bookmarks.splice(index, 1);
+    }
+
+    await user.save();
+    res.status(200).json(user.bookmarks);
+  } catch (error) {
+    res.status(500).json({ message: "Bookmark failed" });
+  }
+};

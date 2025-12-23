@@ -19,6 +19,7 @@ const questionSchema = new mongoose.Schema({
     enum: [
       "Array",
       "String",
+      "Linked list",
       "DP",
       "Graphs",
       "Trees",
@@ -57,7 +58,25 @@ const questionSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
+  completedBy: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
+], votes: {
+    type: Number,
+    default: 0,
+  },
+
+  votedBy: [
+    {
+      userId: String,
+      vote: Number ,
+    }
+  ]
+
+
 
 });
 

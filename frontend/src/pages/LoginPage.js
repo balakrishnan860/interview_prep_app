@@ -11,18 +11,25 @@ function LoginPage() {
     const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const res = await axiosClient.post("/auth/login", { email, password });
-            setUser(res.data.user);
-            setEmail("")
-            setPassword("")
-            navigate("/dashboard");
-        } catch (error) {
-            alert("Invalid credentials");
-        }
-    };
+   const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axiosClient.post("/auth/login", { email, password });
+
+    console.log("FULL RESPONSE:", res.data);
+    console.log("TOKEN:", res.data.token);
+
+    localStorage.setItem("token", res.data.token);
+     setUser(res.data.user)
+    alert("Login success – token saved!");
+    navigate("/dashboard");
+  } catch (error) {
+    alert("Invalid credentials");
+  }
+};
+
+
+
 
     return (
         <div className="login-container">

@@ -32,7 +32,13 @@ const UserSchema = mongoose.Schema({
     createdAt:{
         type:Date,
         default:Date.now
-    }
+    },
+    bookmarks: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Question"
+  }
+]
 })
 
 const User = mongoose.model("User",UserSchema)

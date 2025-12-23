@@ -1,0 +1,48 @@
+/* Page wrapper */
+.mock-setup {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading */
+.mock-setup h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 30px;
+}
+
+/* Dropdowns */
+.mock-setup select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+/* Button */
+.mock-setup button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mock-setup button:hover {
+  background-color: #1d4ed8;
+}
+

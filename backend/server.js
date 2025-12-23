@@ -10,15 +10,22 @@ const app = express()
 dotenv.config()
 const PORT = process.env.PORT
 
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://interview-prep-app-alpha.vercel.app"
+    ],
+    methods: ["GET","POST","PUT","DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type","Authorization"]
+}));
+
+
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 
-app.use(cors({
-    origin:["http://localhost:3000","https://interview-prep-app-alpha.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-}))
+
 app.use("/api/auth",authRoute);
 app.use("/api/questions",questionRoutes)
 connectDB()

@@ -22,7 +22,7 @@ function Navbar() {
             <div className="nav-links">
                 <Link to="/dashboard">Dashboard</Link>
                 <Link to="/questions">Questions</Link>
-
+                <Link to="/add-question">Add Question</Link>
                 {user && (
                     <button className="logout-btn" onClick={handleLogout}>
                         Logout

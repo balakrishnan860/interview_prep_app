@@ -1,0 +1,60 @@
+.mock-container {
+  width: 70%;
+  margin: 45px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.mock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.timer {
+  color: red;
+  font-weight: bold;
+}
+
+.mock-list {
+  margin-top: 20px;
+}
+
+.mock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mock-row button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mock-row button:hover {
+  background: #125aa0;
+}
+
+.exit-btn {
+  margin-top: 20px;
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+

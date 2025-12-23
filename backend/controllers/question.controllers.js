@@ -68,6 +68,7 @@ export const getQuestionById = async (req, res) => {
 
 export const updateQuestion = async (req, res) => {
     try {
+        console.log("BODY RECEIVED:",req.body)
         const { id } = req.params;
         const { title, problem, topic, difficulty, sampleInput, sampleOutput } = req.body;
 
@@ -77,7 +78,6 @@ export const updateQuestion = async (req, res) => {
             return res.status(404).json({ error: "Question not found" });
         }
 
-        // update fields
         question.title = title || question.title;
         question.problem = problem || question.problem;
         question.topic = topic || question.topic;
@@ -148,3 +148,89 @@ export const searchQuestions = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+export const getDailyChallenge = async (req, res) => {
+  try {
+    const questions = await questionModel.find();
+
+    if (questions.length === 0) {
+      return res.status(404).json({ message: "No questions available" });
+    }
+
+    const today = new Date().getDate();
+    const index = today % questions.length;
+
+    const dailyQuestion = questions[index];
+
+    res.json(dailyQuestion);
+  } catch (err) {
+    res.status(500).json({ error: "Daily challenge failed" });
+  }
+};
+
+export const getMockInterviewQuestions = async (req, res) => {
+  try {
+    const count = Number(req.query.count) || 5;
+
+    const questions = await questionModel.aggregate([
+      { $sample: { size: count } }
+    ]);
+
+    res.status(200).json(questions);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load mock interview" });
+  }
+};
+
+export const markQuestionCompleted = async (req, res) => {
+  try {
+    const questionId = req.params.id;
+    const userId = req.user._id;
+
+    const question = await questionModel.findById(questionId);
+
+    if (!question) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    if (!question.completedBy.includes(userId)) {
+      question.completedBy.push(userId);
+      await question.save();
+    }
+
+    res.json({ message: "Question marked as completed" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const addingQuestion = async (req, res) => {
+  try {
+    const question = await questionModel.create(req.body);
+    res.status(201).json(question);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to add question" });
+  }
+};
+
+// export const voteQuestion = async (req, res) => {
+//     console.log("USER:",req.user)
+//     console.log("VOTE BODY:",req.body)
+//   const { vote } = req.body; // +1 or -1
+//   const userId = req.user.id;
+
+//   const question = await questionModel.findById(req.params.id);
+
+//   const alreadyVoted = question.votedBy.find(
+//     (v) => v.userId.toString() === userId.toString()
+//   );
+
+//   if (alreadyVoted) {
+//     return res.json({ votes:question.votes });
+//   }
+
+//   question.votes += vote;
+//   question.votedBy.push({ userId, vote });
+
+//   await question.save();
+//   res.json(question);
+// };

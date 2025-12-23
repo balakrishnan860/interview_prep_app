@@ -1,0 +1,52 @@
+.update-container {
+  min-height: 100vh;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.update-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+.update-box input,
+.update-box textarea,
+.update-box select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.update-box textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.update-box button {
+  width: 100%;
+  padding: 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.update-box button:hover {
+  background: #125aa3;
+}

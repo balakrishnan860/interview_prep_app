@@ -1,17 +1,32 @@
-import express from "express"
-import { addQuestion,getQuestions,getQuestionById,updateQuestion,deleteQuestion,searchQuestions } from "../controllers/question.controllers.js"
-import protectRoute from "../middlewares/protectRoute.js"
-const router = express.Router()
+import express from "express";
+import {
+  addQuestion,
+  getQuestions,
+  getQuestionById,
+  updateQuestion,
+  deleteQuestion,
+  searchQuestions,
+  getDailyChallenge,
+  getMockInterviewQuestions,
+  markQuestionCompleted,
+  addingQuestion,
+} from "../controllers/question.controllers.js";
+import protectRoute from "../middlewares/protectRoute.js";
 
-router.post("/add",protectRoute,addQuestion)
-router.get("/get",getQuestions)
+const router = express.Router();
+
+router.post("/add", protectRoute, addQuestion);
+router.post("/", protectRoute, addingQuestion);
+// router.post("/:id/vote", protectRoute, voteQuestion);
+router.get("/", getQuestions);                
+router.get("/search/filters", searchQuestions);
+router.get("/daily",getDailyChallenge)
+router.get("/mock", protectRoute, getMockInterviewQuestions);
+router.post("/:id/complete",protectRoute,markQuestionCompleted);
 router.get("/:id", getQuestionById);
 router.put("/update/:id", protectRoute, updateQuestion);
 router.delete("/delete/:id", protectRoute, deleteQuestion);
-router.get("/search/filters", searchQuestions)
 
 
+export default router;
 
-
-
-export default router

@@ -1,10 +1,12 @@
 .dashboard-container {
     width: 100vw;
-    height: 100vh;
+    height: 30vh;
     background: linear-gradient(#dbeafe, #ffffff);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content:space-around;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .dashboard-box {
@@ -14,6 +16,7 @@
     background: white;
     box-shadow: 0 0 18px rgba(0,0,0,0.1);
     text-align: center;
+    margin: 10px;
 }
 
 .dashboard-box h2 {
@@ -43,4 +46,37 @@
 
 .dashboard-btn:hover {
     background: #1e40af;
+}
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 260px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dashboard-card h3 {
+  margin-bottom: 10px;
+}
+
+.dashboard-card button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dashboard-card button:hover {
+  background: #0d47a1;
+}
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  
 }
