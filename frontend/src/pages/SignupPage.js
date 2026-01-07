@@ -23,9 +23,10 @@ function SignupPage() {
         password,
       });
 
-      setUser(res.data);
+      setUser(res.data.user);
+      localStorage.setItem("user",JSON.stringify(res.data.user))
       alert("Signup successful!");
-      navigate("/login");
+      navigate("/dashboard");
     } catch (error) {
       alert(error.response?.data?.error || error.message);
       console.log(error.response?.data,error.message)
