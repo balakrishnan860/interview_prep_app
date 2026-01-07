@@ -11,8 +11,24 @@ function QuestionsPage() {
 const [difficulty, setDifficulty] = useState("");
 
 const navigate = useNavigate()
-const user = JSON.parse(localStorage.getItem("user"))
- const isCompleted = questions.completedBy?.includes(user._id);
+const [user, setUser] = useState(null);
+
+useEffect(() => {
+  try {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser && storedUser !== "undefined") {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
+    }
+  } catch (err) {
+    console.error("Invalid user in localStorage", err);
+    setUser(null);
+  }
+}, []);
+
+
 
 
 const fetchQuestions = async () => {
@@ -80,32 +96,44 @@ const fetchQuestions = async () => {
           <span>View</span>
         </div>
 
-        {questions.map(q => (
-          <div className="questions-row" key={q._id}>
-            <span>{q.title}</span>
-            <span>{q.topic}</span>
-            <span className={`diff ${q.difficulty.toLowerCase()}`}>
-              {q.difficulty}
-            </span>
-            <Link to={`/questions/${q._id}`} className="view-btn">Open</Link>
-            <Link to={`/update-question/${q._id}`}>
-              <button className="edit-btn">Edit</button>
-            </Link>
-            <button className="selection-1" onClick={(e) =>{ 
-              e.stopPropagation();
-              handleBookmark(q._id)}}>⭐</button>
-              <td>
-                {isCompleted && (
-                   <span className="completed-badge">✓ Completed</span>
-                     )}
-              </td>
-              {/* <button onClick={() => handleVote(q._id, 1)}>👍</button>
-              <span>{q.votes}</span>
-              <button onClick={() => handleVote(q._id, -1)}>👎</button> */}
+        {Array.isArray(questions)&&questions.map(q => {
+ const isCompleted =
+  user &&
+  Array.isArray(q.completedBy) &&
+  q.completedBy.includes(user._id);
 
 
-          </div>
-        ))}
+  return (
+    <div className="questions-row" key={q._id}>
+      <span>{q.title}</span>
+      <span>{q.topic}</span>
+      <span className={`diff ${q.difficulty.toLowerCase()}`}>
+        {q.difficulty}
+      </span>
+
+      <Link to={`/questions/${q._id}`} className="view-btn">Open</Link>
+
+      <Link to={`/update-question/${q._id}`}>
+        <button className="edit-btn">Edit</button>
+      </Link>
+
+      <button
+        className="selection-1"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleBookmark(q._id);
+        }}
+      >
+        ⭐
+      </button>
+
+      {isCompleted && (
+        <span className="completed-badge">✓ Completed</span>
+      )}
+    </div>
+  );
+})}
+
       </div>
 
     </div>

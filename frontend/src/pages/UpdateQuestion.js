@@ -16,10 +16,6 @@ const UpdateQuestion = () => {
     sampleOutput: ""
   });
 
-  useEffect(() => {
-    loadExisting();
-  }, [id]);
-
   const loadExisting = async () => {
     const { data } = await axiosClient.get(`/questions/${id}`);
     setForm({
@@ -32,31 +28,45 @@ const UpdateQuestion = () => {
     });
   };
 
+  useEffect(() => {
+    loadExisting();
+  }, [id]);
+
+  
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = async () => {
-    
-    try {
-        console.log("form content:",form)
-        await axiosClient.put(
+  try {
+    const token = localStorage.getItem("token");
+    console.log("TOKEN:", token);
+
+
+await axiosClient.put(
   `/questions/update/${id}`,
   form,
   {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
-    withCredentials: true,
   }
 );
+
+
+
     alert("Updated Successfully!");
     navigate("/questions");
-    } catch (err) {
-        console.log(err)
-        alert("Update failed")
-    }
-  };
+  } catch (err) {
+    console.log("FULL ERROR:", err);
+    console.log("RESPONSE:", err.response);
+    console.log("DATA:", err.response?.data);
+    console.log("STATUS:", err.response?.status);
+    alert("Update failed");
+  }
+};
+
 
   return (
     <div className="update-container">

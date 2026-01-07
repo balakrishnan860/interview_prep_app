@@ -70,8 +70,11 @@ export const updateQuestion = async (req, res) => {
     try {
         console.log("BODY RECEIVED:",req.body)
         const { id } = req.params;
+        const user = req.user
         const { title, problem, topic, difficulty, sampleInput, sampleOutput } = req.body;
-
+        console.log("PARAM ID:",req.params.id)
+        console.log("BODY:",req.body)
+        console.log("USER:",user)
         // find question exists
         const question = await questionModel.findById(id);
         if (!question) {
